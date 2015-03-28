@@ -21,5 +21,5 @@ def prime_factorization(n):
     return pf
 
 if __name__ == '__main__':
-    n = 209
+    n = 300
     print(prime_factorization(n))
