@@ -23,21 +23,6 @@ class Bill:
     def banknotes(self):
         cash = [self.__int__()]
         return cash
-
-a = Bill(10)
-b = Bill(5)
-c = Bill(10)
-print (c.banknotes())
-print (a == b)
-print (str(a))
-money_holder = {}
-money_holder[a] = 1
-
-if c in money_holder:
-    money_holder[c] += 1
-
-print (money_holder)
-
 ##########################################################################
 
 
@@ -47,7 +32,7 @@ class BatchBill:
 
     def banknotes(self):
         cash = []
-        for bill in bills:
+        for bill in self.bills:
             cash.append(int(bill))
         return cash
 
@@ -65,17 +50,6 @@ class BatchBill:
         for bill in self.bills:
             total += int(bill)
         return total
-
-
-values = [10, 20, 50, 100]
-bills = [Bill(value) for value in values]
-batch = BatchBill(bills)
-for bill in batch:
-    print(bill)
-
-print (batch.banknotes(), "Echo")
-
-print (batch.total())
 
 
 class CashDesk:
@@ -96,29 +70,10 @@ class CashDesk:
         d = {}
         for bill in self.vault:
             cash += bill.banknotes()
-        print (cash)
         for notes in cash:
             if notes in d:
                 d[notes] += 1
             else:
                 d[notes] = 1
-        print (d)
         for note in sorted(list(d)):
             print ("%s $ bills - %s" % (note, d[note]))
-
-
-values = [10, 20, 50, 100, 100, 100]
-bills = [Bill(value) for value in values]
-
-batch = BatchBill(bills)
-
-desk = CashDesk()
-
-desk.take_money(Bill(10))
-desk.take_money(batch)
-desk.take_money(Bill(600))
-desk.take_money(Bill(200))
-desk.take_money(Bill(1))
-
-print(desk.total())
-desk.inspect()
