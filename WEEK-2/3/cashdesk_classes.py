@@ -21,8 +21,7 @@ class Bill:
         return hash(str(self.amount ^ 128))
 
     def banknotes(self):
-        cash = [self.__int__()]
-        return cash
+        return [self.__int__()]
 ##########################################################################
 
 

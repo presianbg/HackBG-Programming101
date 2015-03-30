@@ -3,7 +3,7 @@ from cashdesk_classes import Bill, BatchBill, CashDesk
 
 
 def main():
-    values = [10, 20, 50, 100, 100, 100, 20, 500]
+    values = [10, 20, 50, 100, 100, 100, 20, 500, 10, 10, 10, 10, 10]
     bills = [Bill(value) for value in values]
 
     batch = BatchBill(bills)
