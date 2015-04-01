@@ -59,7 +59,7 @@ class Fraction:
         return (self.gcd_num)
 
 
-a = Fraction(1, 2)
-b = Fraction(2, 4)
+a = Fraction(1, 5)
+b = Fraction(20, 101)
 
-print (a == b)
+print (a + b)
