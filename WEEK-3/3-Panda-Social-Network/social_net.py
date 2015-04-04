@@ -99,9 +99,32 @@ class PandaSocialNetwork():
         if level == 1:
             self.gen_in_net = [pandas for pandas in self.bambook_net[panda] if pandas.gender == gender]
             return (len(self.gen_in_net))
-        for pandas in self.bambook_net:
-            if self.connection_level(panda, pandas) <= level and pandas != panda and panda.gender == pandas.gender:
+
+        self.visited = set()
+        self.queue = []
+        self.path_to = {}
+        self.queue.append((0, panda))
+        self.visited.add(panda)
+        self.path_to[panda] = None
+        self.count = 0
+
+        while len(self.queue) != 0:
+            self.data = self.queue.pop(0)
+            self.current_lvl = self.data[0]
+            self.current_node = self.data[1]
+
+            if self.current_lvl > level:
+                break
+
+            if self.current_node != panda and self.current_lvl <= level and self.current_node.gender == panda.gender:
                 self.count += 1
+
+            for neighbour in self.bambook_net[self.current_node]:
+                if neighbour not in self.visited:
+                    self.path_to[neighbour] = self.current_node
+                    self.visited.add(neighbour)
+                    self.queue.append((self.current_lvl + 1, neighbour))
+
         return self.count
 
 
