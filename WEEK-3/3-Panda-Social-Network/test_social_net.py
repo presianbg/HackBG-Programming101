@@ -9,7 +9,7 @@ class TestingSocialNet(unittest.TestCase):
         self.pandanet = PandaSocialNetwork()
         self.pandio = Panda("Pandio", "pandio@pandaland.cn", "male")
         self.poonchoo = Panda("PoonChoo", "pandio@pandahomes.tw", "male")
-        self.babameca = Panda("BabaMeca", "BabaMeca@gorata.bg", "female")
+        self.babameca = Panda("BabaMeca", "BabaMeca@gorata.bg", "male")
         self.tatkomechok = Panda("TatkoMeca", "TatkoMeca@gorata.bg", "male")
         self.pandanet.make_friends(self.pandio, self.poonchoo)
 
@@ -50,7 +50,10 @@ class TestingSocialNet(unittest.TestCase):
         self.assertFalse(self.pandanet.are_connected(self.pandio, self.tatkomechok))
 
     def test_how_many_gender_in_network(self):
+        self.pandanet.make_friends(self.poonchoo, self.tatkomechok)
+        self.pandanet.make_friends(self.tatkomechok, self.babameca)
         self.assertEqual(self.pandanet.how_many_gender_in_network(1, self.pandio, "male"), 1)
+        self.assertEqual(self.pandanet.how_many_gender_in_network(3, self.pandio, "male"), 3)
 
 
 if __name__ == '__main__':

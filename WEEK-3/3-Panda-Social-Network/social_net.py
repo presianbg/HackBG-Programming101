@@ -32,13 +32,16 @@ class PandaSocialNetwork():
             if self.are_friends(panda1, panda2):
                 raise PandasAlreadyFriends
             self.add_friend(panda1, panda2)
+
         elif not self.has_panda(panda1) and not self.has_panda(panda2):
             self.add_panda(panda1)
             self.add_panda(panda2)
             self.add_friend(panda1, panda2)
+
         elif not self.has_panda(panda1):
             self.add_panda(panda1)
             self.add_friend(panda1, panda2)
+
         elif not self.has_panda(panda2):
             self.add_panda(panda2)
             self.add_friend(panda1, panda2)
@@ -56,20 +59,35 @@ class PandaSocialNetwork():
         self.connection = self.find_connection(panda1, panda2)
         if not self.connection:
             return -1
-        return (len(self.connection)-1)
+        return self.connection
 
-    def find_connection(self, start, end, path=[]):
-        path = path + [start]
-        shortest = []
-        if start == end:
-            return path
-        for pandas in self.bambook_net[start]:
-            if pandas not in path:
-                newpath = self.find_connection(pandas, end, path)
-                if newpath:
-                    if not shortest or len(newpath) < len(shortest):
-                        shortest = newpath
-        return shortest
+    def find_connection(self, start, end):
+        self.visited = set()
+        self.queue = []
+        self.path_to = {}
+        self.queue.append(start)
+        self.visited.add(start)
+        self.path_to[start] = None
+        self.found = False
+        self.path_lenght = 0
+
+        while len(self.queue) != 0:
+            self.current_node = self.queue.pop(0)
+            if self.current_node == end:
+                self.found = True
+                break
+
+            for neighbour in self.bambook_net[self.current_node]:
+                if neighbour not in self.visited:
+                    self.path_to[neighbour] = self.current_node
+                    self.visited.add(neighbour)
+                    self.queue.append(neighbour)
+
+        if self.found:
+            while self.path_to[end] is not None:
+                self.path_lenght += 1
+                end = self.path_to[end]
+        return self.path_lenght
 
     def are_connected(self, panda1, panda2):
         if self.find_connection(panda1, panda2):
@@ -77,11 +95,14 @@ class PandaSocialNetwork():
         return False
 
     def how_many_gender_in_network(self, level, panda, gender):
+        self.count = 0
         if level == 1:
             self.gen_in_net = [pandas for pandas in self.bambook_net[panda] if pandas.gender == gender]
             return (len(self.gen_in_net))
-
-
+        for pandas in self.bambook_net:
+            if self.connection_level(panda, pandas) <= level and pandas != panda and panda.gender == pandas.gender:
+                self.count += 1
+        return self.count
 
 
 class PandaAlreadyThere(Exception):
