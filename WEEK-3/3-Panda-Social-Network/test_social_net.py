@@ -53,7 +53,7 @@ class TestingSocialNet(unittest.TestCase):
         self.pandanet.make_friends(self.poonchoo, self.tatkomechok)
         self.pandanet.make_friends(self.tatkomechok, self.babameca)
         self.assertEqual(self.pandanet.how_many_gender_in_network(1, self.pandio, "male"), 1)
-        self.assertEqual(self.pandanet.how_many_gender_in_network(3, self.pandio, "male"), 2)
+        self.assertEqual(self.pandanet.how_many_gender_in_network(3, self.pandio, "female"), 1)
 
 
 if __name__ == '__main__':

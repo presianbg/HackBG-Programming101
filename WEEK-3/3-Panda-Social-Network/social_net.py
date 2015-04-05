@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 from panda_social import Panda
+import json
 
 
 class PandaSocialNetwork():
@@ -116,7 +117,7 @@ class PandaSocialNetwork():
             if self.current_lvl > level:
                 break
 
-            if self.current_node != panda and self.current_lvl <= level and self.current_node.gender == panda.gender:
+            if self.current_node != panda and self.current_lvl <= level and self.current_node.gender == gender:
                 self.count += 1
 
             for neighbour in self.bambook_net[self.current_node]:
@@ -126,6 +127,32 @@ class PandaSocialNetwork():
                     self.queue.append((self.current_lvl + 1, neighbour))
 
         return self.count
+
+    def save(self, path):
+        self.safe_sn = {}
+        for pandas in self.bambook_net:
+            if repr(pandas) not in self.safe_sn:
+                self.safe_sn[repr(pandas)] = []
+            for friends in self.bambook_net[pandas]:
+                self.safe_sn[repr(pandas)].append(repr(friends))
+
+        json_string = json.dumps(self.safe_sn, indent=4)
+
+        with open(path, "w") as f:
+            f.write(json_string)
+        print ("BamBook.net Saved Succesfuly in {}".format(path))
+
+    def load(self, path):
+        self.data = {}
+
+        with open(path, 'r') as fp:
+            self.data = json.load(fp)
+
+        for pandas in self.data:
+            self.add_panda(eval(pandas))
+            for friends in self.data[pandas]:
+                self.bambook_net[eval(pandas)].append(eval(friends))
+        print ("BamBook.net Loaded Succesfuly from {}".format(path))
 
 
 class PandaAlreadyThere(Exception):

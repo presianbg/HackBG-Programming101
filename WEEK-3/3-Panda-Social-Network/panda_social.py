@@ -18,6 +18,9 @@ class Panda:
     def __str__(self):
         return "Hello, I'm {}, contact me at {}, don't worry i'm {} panda".format(self.name, self.email, self.gender)
 
+    def __repr__(self):
+        return "Panda('{}', '{}', '{}')".format(self.name, self.email, self.gender)
+
     def __hash__(self):
         return hash(self.name + self.gender)
 

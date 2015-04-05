@@ -1,0 +1,32 @@
+{
+    "Panda('PoonChoo', 'pandio@pandahomes.tw', 'male')": [
+        "Panda('Benji', 'benji@pandaland.com', 'male')",
+        "Panda('Pandio', 'pandio@pandaland.cn', 'male')"
+    ],
+    "Panda('Pressy', 'press@dotaforpanda.cn', 'male')": [
+        "Panda('Cvety Baby', 'cvety@cvetybaby.com', 'female')",
+        "Panda('Benji', 'benji@pandaland.com', 'male')"
+    ],
+    "Panda('Cvety Baby', 'cvety@cvetybaby.com', 'female')": [
+        "Panda('Pressy', 'press@dotaforpanda.cn', 'male')",
+        "Panda('Benji', 'benji@pandaland.com', 'male')"
+    ],
+    "Panda('Benji', 'benji@pandaland.com', 'male')": [
+        "Panda('BabaMeca', 'BabaMeca@gorata.bg', 'female')",
+        "Panda('Cvety Baby', 'cvety@cvetybaby.com', 'female')",
+        "Panda('PoonChoo', 'pandio@pandahomes.tw', 'male')",
+        "Panda('Pressy', 'press@dotaforpanda.cn', 'male')"
+    ],
+    "Panda('BabaMeca', 'BabaMeca@gorata.bg', 'female')": [
+        "Panda('Pandio', 'pandio@pandaland.cn', 'male')",
+        "Panda('Benji', 'benji@pandaland.com', 'male')",
+        "Panda('TatkoMeca', 'TatkoMeca@gorata.bg', 'male')"
+    ],
+    "Panda('Pandio', 'pandio@pandaland.cn', 'male')": [
+        "Panda('BabaMeca', 'BabaMeca@gorata.bg', 'female')",
+        "Panda('PoonChoo', 'pandio@pandahomes.tw', 'male')"
+    ],
+    "Panda('TatkoMeca', 'TatkoMeca@gorata.bg', 'male')": [
+        "Panda('BabaMeca', 'BabaMeca@gorata.bg', 'female')"
+    ]
+}
