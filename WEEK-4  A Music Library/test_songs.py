@@ -6,14 +6,14 @@ from songs_class import Songs
 class TestingSongs(unittest.TestCase):
 
     def setUp(self):
-        self.rock = Songs(title="Shackler's Revenge", artist="Guns N' Roses", album="Chinese Democracy", lenght="4:32")
+        self.rock = Songs(title="Shackler's Revenge", artist="Guns N' Roses", album="Chinese Democracy", length="4:32")
 
     def testing_init(self):
         with self.assertRaises(ValueError):
-            self.roll = Songs(title="Shackler's Revenge", artist="Guns N' Roses", album="Chinese Democracy - live", lenght="alabala")
+            self.roll = Songs(title="Shackler's Revenge", artist="Guns N' Roses", album="Chinese Democracy - live", length="alabala")
         self.assertIsInstance(self.rock, Songs)
         with self.assertRaises(TypeError):
-            self.roll = Songs(title=4, artist="Guns N' Roses", album=True, lenght="1:32:33")
+            self.roll = Songs(title=4, artist="Guns N' Roses", album=True, length="1:32:33")
 
     def test_str(self):
         self.assertEqual(str(self.rock), "Guns N' Roses - Shackler's Revenge from Chinese Democracy - 4:32")
@@ -22,13 +22,13 @@ class TestingSongs(unittest.TestCase):
         self.assertEqual(type(self.rock.__hash__()), int)
 
     def test_eq(self):
-        self.roll = Songs(title="Shackler's Revenge", artist="Guns N' Roses", album="Chinese Democracy - live", lenght="4:44")
+        self.roll = Songs(title="Shackler's Revenge", artist="Guns N' Roses", album="Chinese Democracy - live", length="4:44")
         self.assertTrue(self.roll == self.rock)
 
-    def test_lenght(self):
-        self.assertEqual(self.rock.get_lenght(), "4:32")
-        self.assertEqual(self.rock.get_lenght(seconds=True), 272)
-        self.assertEqual(self.rock.get_lenght(minutes=True), 4)
+    def test_length(self):
+        self.assertEqual(self.rock.get_length(), "4:32")
+        self.assertEqual(self.rock.get_length(seconds=True), 272)
+        self.assertEqual(self.rock.get_length(minutes=True), 4)
 
 if __name__ == '__main__':
     unittest.main()

@@ -6,24 +6,27 @@ import re
 
 class Songs():
 
-    def __init__(self, title="Unknown Title", artist="Unkown Artist", album="Unkown Album", lenght="Unkown Lenght"):
+    def __init__(self, title="Unknown Title", artist="Unkown Artist", album="Unkown Album", length="00:00"):
         pattern = r"^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$"
-        if not re.match(pattern, lenght):
+        if not re.match(pattern, length):
             raise ValueError
 
-        if type(title) is not str or type(artist) is not str or type(album) is not str or type(lenght) is not str:
+        if type(title) is not str or type(artist) is not str or type(album) is not str or type(length) is not str:
             raise TypeError
 
         self.title = title
         self.artist = artist
         self.album = album
-        self.lenght = lenght
+        self.length = length
+
+    def __repr__(self):
+        return "Songs('{}', '{}', '{}')".format(self.title, self.artist, self.album, self.length)
 
     def __str__(self):
-        return "{} - {} from {} - {}".format(self.artist, self. title, self.album, self.lenght)
+        return "{} - {} from {} - {}".format(self.artist, self.title, self.album, self.length)
 
     def __hash__(self):
-        return hash(self.title + self.lenght + self.artist)
+        return hash(self.title + self.length + self.artist)
 
     def __eq__(self, other):
         equal_title = self.title == other.title
@@ -33,16 +36,16 @@ class Songs():
         return False
 
     def convert_to_sec(self):
-        if self.lenght.count(':') == 1:
-            x = time.strptime(self.lenght, '%M:%S')
+        if self.length.count(':') == 1:
+            x = time.strptime(self.length, '%M:%S')
             return int(datetime.timedelta(hours=x.tm_hour, minutes=x.tm_min, seconds=x.tm_sec).total_seconds())
-        elif self.lenght.count(':') == 2:
-            x = time.strptime(self.lenght, '%H:%M:%S')
+        elif self.length.count(':') == 2:
+            x = time.strptime(self.length, '%H:%M:%S')
             return int(datetime.timedelta(hours=x.tm_hour, minutes=x.tm_min, seconds=x.tm_sec).total_seconds())
 
-    def get_lenght(self, seconds=False, minutes=False, hours=False):
+    def get_length(self, seconds=False, minutes=False, hours=False):
         if seconds is False and minutes is False and hours is False:
-            return self.lenght
+            return self.length
         elif seconds is True and minutes is False and hours is False:
             return self.convert_to_sec()
         elif seconds is False and minutes is True and hours is False:

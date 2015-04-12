@@ -4,6 +4,8 @@ import datetime
 import copy
 import random
 from tabulate import tabulate
+import json
+import os
 
 
 class Playlist():
@@ -33,20 +35,20 @@ class Playlist():
         else:
             raise TypeError
 
-    def get_total_lenght(self):
-        self.total_secs = 0
+    def get_total_length(self):
+        total_secs = 0
         for song in self.rocklist:
-            self.total_secs += song.get_lenght(seconds=True)
-        return str(datetime.timedelta(seconds=self.total_secs))
+            total_secs += song.get_length(seconds=True)
+        return str(datetime.timedelta(seconds=total_secs))
 
     def get_artists(self):
-        self.artista = {}
+        artista = {}
         for songs in self.rocklist:
-            if songs.artist in self.artista:
-                self.artista[songs.artist] += 1
+            if songs.artist in artista:
+                artista[songs.artist] += 1
             else:
-                self.artista[songs.artist] = 1
-        return self.artista
+                artista[songs.artist] = 1
+        return artista
 
     def next_song(self):
         if self.shuffle is False:
@@ -79,30 +81,49 @@ class Playlist():
         return self.current_song
 
     def pprint_playlist(self):
-        self.pptable = []
-        self.headers = ["Artist", "Album", "SongTitle", "Lenght"]
+        pptable = []
+        headers = ["Artist", "Album", "SongTitle", "length"]
         for song in self.rocklist:
-            self.pptable.append([song.artist, song.album, song.title, song.lenght])
-        print (tabulate(self.pptable, self.headers, tablefmt="fancy_grid"))
+            pptable.append([song.artist, song.album, song.title, song.length])
+        print (tabulate(pptable, headers, tablefmt="fancy_grid"))
+
+    def save(self):
+        directory = "playlists/"
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        plistname = directory + self.name.replace(" ", "-") + ".json"
+        sfplist = {}
+        sfplist["Playlist Name"] = self.name
+        sfplist["repeat"] = self.repeat
+        sfplist["shuffle"] = self.shuffle
+        sfplist["Songs"] = []
+        for song in self.rocklist:
+            sfplist["Songs"].append({"artist": song.artist, "album": song.album, "title": song.title, "length": song.length})
+
+        json_string = json.dumps(sfplist, indent=4)
+        with open(plistname, "w") as f:
+            f.write(json_string)
+
+    @staticmethod
+    def load(pl_name):
+        directory = "playlists/"
+        if not os.path.isfile(pl_name):
+            pl_name = directory+pl_name
+            if not os.path.isfile(pl_name):
+                raise NoSuchPlaylist
+        data = {}
+        with open(pl_name, 'r') as fp:
+            data = json.load(fp)
+        loaded_playlist = Playlist(data["Playlist Name"], data["repeat"], data["shuffle"])
+        for song in data["Songs"]:
+            loaded_playlist.add_song(Songs(song["title"], song["artist"], song["album"], song["length"]))
+
+        return loaded_playlist
 
 
 class NoMoreSongsInPlaylist(Exception):
     pass
 
 
-
-def main():
-    rock_song = Songs(title="Shackler's Revenge", artist="Guns N' Roses", album="Chinese Democracy", lenght="4:28")
-    roll_song = Songs(title="Final Masquerade", artist="Linkin Park", album="The Hunting Party", lenght="3:34")
-    rock_rolla = Songs(title="Knocking On Heaven's Door", artist="Guns N' Roses", album="Live concert", lenght="5:22")
-    musiclist = Playlist(repeat=True, shuffle=True)
-    musiclist.add_song(rock_song)
-    musiclist.add_song(roll_song)
-    musiclist.add_song(rock_rolla)
-    musiclist.pprint_playlist()
-    print(str(musiclist.next_song()))
-    print(str(musiclist.next_song()))
-    print(str(musiclist.next_song()))
-
-if __name__ == '__main__':
-    main()
+class NoSuchPlaylist(Exception):
+    pass
