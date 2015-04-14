@@ -1,0 +1,28 @@
+{
+    "Playlist Name": "WTF",
+    "Songs": [
+        {
+            "album": "Liebe ist f\u00fcr alle da",
+            "path": "/home/pressian/Music/ACDC Rock Or Bust [Full Album] 2014/Test/Rammstein - Ich tu dir weh.ogg",
+            "length": "0:05:01",
+            "artist": "Rammstein",
+            "title": "Ich tu dir weh"
+        },
+        {
+            "album": "Edge of a Revolution - Single",
+            "path": "/home/pressian/Music/ACDC Rock Or Bust [Full Album] 2014/Test/Revolution.mp3",
+            "length": "0:04:04",
+            "artist": "Nickelback",
+            "title": "Edge of a Revolution"
+        },
+        {
+            "album": "Ronnie James Dio - This Is Your Life",
+            "path": "/home/pressian/Music/ACDC Rock Or Bust [Full Album] 2014/Test/dio01.flac",
+            "length": "0:04:28",
+            "artist": "Anthrax",
+            "title": "Neon Knights"
+        }
+    ],
+    "repeat": false,
+    "shuffle": false
+}

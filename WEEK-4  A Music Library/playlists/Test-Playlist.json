@@ -1,0 +1,21 @@
+{
+    "Playlist Name": "Test Playlist",
+    "repeat": false,
+    "shuffle": false,
+    "Songs": [
+        {
+            "title": "Shackler's Revenge",
+            "path": "",
+            "artist": "Guns N' Roses",
+            "album": "Chinese Democracy",
+            "length": "4:28"
+        },
+        {
+            "title": "Final Masquerade",
+            "path": "",
+            "artist": "Linkin Park",
+            "album": "The Hunting Party",
+            "length": "3:34"
+        }
+    ]
+}

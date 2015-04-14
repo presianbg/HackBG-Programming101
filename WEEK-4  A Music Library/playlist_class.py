@@ -82,9 +82,11 @@ class Playlist():
 
     def pprint_playlist(self):
         pptable = []
-        headers = ["Artist", "Album", "SongTitle", "length"]
+        snum = 0
+        headers = ["№", "Artist", "Album", "SongTitle", "length"]
         for song in self.rocklist:
-            pptable.append([song.artist, song.album, song.title, song.length])
+            snum += 1
+            pptable.append([snum, song.artist, song.album, song.title, song.length])
         print (tabulate(pptable, headers, tablefmt="fancy_grid"))
 
     def save(self):
@@ -98,7 +100,7 @@ class Playlist():
         sfplist["shuffle"] = self.shuffle
         sfplist["Songs"] = []
         for song in self.rocklist:
-            sfplist["Songs"].append({"artist": song.artist, "album": song.album, "title": song.title, "length": song.length})
+            sfplist["Songs"].append({"artist": song.artist, "album": song.album, "title": song.title, "length": song.length, "path": song.songpath})
 
         json_string = json.dumps(sfplist, indent=4)
         with open(plistname, "w") as f:
@@ -116,7 +118,7 @@ class Playlist():
             data = json.load(fp)
         loaded_playlist = Playlist(data["Playlist Name"], data["repeat"], data["shuffle"])
         for song in data["Songs"]:
-            loaded_playlist.add_song(Songs(song["title"], song["artist"], song["album"], song["length"]))
+            loaded_playlist.add_song(Songs(song["title"], song["artist"], song["album"], song["length"], song["path"]))
 
         return loaded_playlist
 

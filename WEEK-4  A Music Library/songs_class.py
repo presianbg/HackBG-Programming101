@@ -6,7 +6,7 @@ import re
 
 class Songs():
 
-    def __init__(self, title="Unknown Title", artist="Unkown Artist", album="Unkown Album", length="00:00"):
+    def __init__(self, title="Unknown Title", artist="Unkown Artist", album="Unkown Album", length="00:00", songpath=""):
         pattern = r"^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$"
         if not re.match(pattern, length):
             raise ValueError
@@ -18,6 +18,7 @@ class Songs():
         self.artist = artist
         self.album = album
         self.length = length
+        self.songpath = songpath
 
     def __repr__(self):
         return "Songs('{}', '{}', '{}')".format(self.title, self.artist, self.album, self.length)

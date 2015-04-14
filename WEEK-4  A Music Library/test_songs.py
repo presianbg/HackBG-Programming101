@@ -6,7 +6,7 @@ from songs_class import Songs
 class TestingSongs(unittest.TestCase):
 
     def setUp(self):
-        self.rock = Songs(title="Shackler's Revenge", artist="Guns N' Roses", album="Chinese Democracy", length="4:32")
+        self.rock = Songs(title="Shackler's Revenge", artist="Guns N' Roses", album="Chinese Democracy", length="4:32",)
 
     def testing_init(self):
         with self.assertRaises(ValueError):
