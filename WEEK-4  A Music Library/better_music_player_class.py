@@ -87,17 +87,18 @@ class MusicPlayer():
         else:
             self.make_playlist(path)
 
+    def set_pl_param(self, param):
+        if param == "True":
+            param = True
+        elif param == "False":
+            param = False
+        return param
+
     def make_playlist(self, path):
         shuff = input('Shuffle? [True or False] ?> ')
-        if shuff == "True":
-            shuff = True
-        elif shuff == "False":
-            shuff = False
+        shuff = self.set_pl_param(shuff)
         repp = input('Repeat? [True or False] ?> ')
-        if repp == "True":
-            repp = True
-        elif repp == "False":
-            repp = False
+        repp = self.set_pl_param(repp)
         plname = input('Name of the playlist?> ')
         crawler = MusicCrawler(path)
         self.plist = crawler.generate_playlist(plname, repp, shuff)
