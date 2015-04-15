@@ -4,11 +4,11 @@ import datetime
 import re
 
 
-class Songs():
+class Song:
 
     def __init__(self, title="Unknown Title", artist="Unkown Artist", album="Unkown Album", length="00:00", songpath=""):
-        pattern = r"^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$"
-        if not re.match(pattern, length):
+        format_length = r"^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$"
+        if not re.match(format_length, length):
             raise ValueError
 
         if type(title) is not str or type(artist) is not str or type(album) is not str or type(length) is not str:
@@ -21,7 +21,7 @@ class Songs():
         self.songpath = songpath
 
     def __repr__(self):
-        return "Songs('{}', '{}', '{}')".format(self.title, self.artist, self.album, self.length)
+        return "Song('{}', '{}', '{}')".format(self.title, self.artist, self.album, self.length)
 
     def __str__(self):
         return "{} - {} from {} - {}".format(self.artist, self.title, self.album, self.length)

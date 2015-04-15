@@ -24,8 +24,7 @@ def main():
 
         elif mp.is_command(command, "generate"):
             pt = mp.check_path(command)
-            if pt:
-                mp.generate_playlist(pt)
+            mp.generate_playlist(pt)
 
         elif mp.is_command(command, "play"):
             sn = mp.check_song_num(command)

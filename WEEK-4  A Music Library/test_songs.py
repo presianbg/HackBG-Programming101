@@ -1,19 +1,19 @@
 #!/usr/bin/python3
 import unittest
-from songs_class import Songs
+from songs_class import Song
 
 
 class TestingSongs(unittest.TestCase):
 
     def setUp(self):
-        self.rock = Songs(title="Shackler's Revenge", artist="Guns N' Roses", album="Chinese Democracy", length="4:32",)
+        self.rock = Song(title="Shackler's Revenge", artist="Guns N' Roses", album="Chinese Democracy", length="4:32",)
 
     def testing_init(self):
         with self.assertRaises(ValueError):
-            self.roll = Songs(title="Shackler's Revenge", artist="Guns N' Roses", album="Chinese Democracy - live", length="alabala")
-        self.assertIsInstance(self.rock, Songs)
+            self.roll = Song(title="Shackler's Revenge", artist="Guns N' Roses", album="Chinese Democracy - live", length="alabala")
+        self.assertIsInstance(self.rock, Song)
         with self.assertRaises(TypeError):
-            self.roll = Songs(title=4, artist="Guns N' Roses", album=True, length="1:32:33")
+            self.roll = Song(title=4, artist="Guns N' Roses", album=True, length="1:32:33")
 
     def test_str(self):
         self.assertEqual(str(self.rock), "Guns N' Roses - Shackler's Revenge from Chinese Democracy - 4:32")
@@ -22,7 +22,7 @@ class TestingSongs(unittest.TestCase):
         self.assertEqual(type(self.rock.__hash__()), int)
 
     def test_eq(self):
-        self.roll = Songs(title="Shackler's Revenge", artist="Guns N' Roses", album="Chinese Democracy - live", length="4:44")
+        self.roll = Song(title="Shackler's Revenge", artist="Guns N' Roses", album="Chinese Democracy - live", length="4:44")
         self.assertTrue(self.roll == self.rock)
 
     def test_length(self):

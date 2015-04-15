@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from playlist_class import Playlist, NoMoreSongsInPlaylist
+from playlist_class import Playlist, NoMoreSongsInPlaylist, NoSuchPlaylist
 from musiccrawler_class import MusicCrawler
 import readline
 from subprocess import Popen, PIPE
@@ -53,7 +53,9 @@ class MusicPlayer():
             if path:
                 return path
 
-        print ("No path given")
+        print ("No path given! Using ~/Music instead")
+        path = None
+        return path
 
     def check_playlist(self):
         if self.plist:
@@ -70,13 +72,19 @@ class MusicPlayer():
     def load_playlist(self, path):
         if self.check_playlist():
             if self.quest():
-                self.plist = Playlist.load(path)
-                print ("{} loaded".format(self.plist.name))
+                try:
+                    self.plist = Playlist.load(path)
+                    print ("{} loaded".format(self.plist.name))
+                except NoSuchPlaylist:
+                    print ("Err: NoSuchPlaylist")
             else:
                 print ("Playlist not changed".format(self.plist.name))
         else:
-            self.plist = Playlist.load(path)
-            print ("{} loaded".format(self.plist.name))
+            try:
+                self.plist = Playlist.load(path)
+                print ("{} loaded".format(self.plist.name))
+            except NoSuchPlaylist:
+                print ("Err: NoSuchPlaylist")
 
     def generate_playlist(self, path):
         if self.check_playlist():
@@ -90,7 +98,7 @@ class MusicPlayer():
     def set_pl_param(self, param):
         if param == "True":
             param = True
-        elif param == "False":
+        else:
             param = False
         return param
 
@@ -100,13 +108,14 @@ class MusicPlayer():
         repp = input('Repeat? [True or False] ?> ')
         repp = self.set_pl_param(repp)
         plname = input('Name of the playlist?> ')
-        crawler = MusicCrawler(path)
+        if path:
+            crawler = MusicCrawler(path)
+        elif not path:
+            crawler = MusicCrawler()
         self.plist = crawler.generate_playlist(plname, repp, shuff)
         print ("{} generated".format(self.plist.name))
 
     def show_playlist(self):
-        print ("Shuffle is: {} / Repeat is: {}/ Playlist name is: {}".format(self.plist.shuffle, self.plist.repeat, self.plist.name))
-        print("Total Length : {}".format(self.plist.get_total_length()))
         self.plist.pprint_playlist()
 
     def check_song_num(self, command):
@@ -141,11 +150,11 @@ class MusicPlayer():
             print ("No more Songs in Playlist")
 
     def check_player(self, song_p):
-        if song_p.endswith(".mp3"):
-            player = "mpg123"
+        if song_p.endswith('.mp3'):
+            player = 'mpg123'
             return player
-        if song_p.endswith(".ogg") or song_p.endswith(".flac"):
-            player = "ogg123"
+        if song_p.endswith('.ogg') or song_p.endswith('.flac'):
+            player = 'ogg123'
             return player
 
     def save_playlist(self):

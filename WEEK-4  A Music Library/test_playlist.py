@@ -1,15 +1,16 @@
 #!/usr/bin/python3
 import unittest
 from playlist_class import Playlist, NoMoreSongsInPlaylist
-from songs_class import Songs
+from songs_class import Song
 import time
+
 
 class TestingPlaylist(unittest.TestCase):
 
     def setUp(self):
-        self.rock_song = Songs(title="Shackler's Revenge", artist="Guns N' Roses", album="Chinese Democracy", length="4:28")
-        self.roll_song = Songs(title="Final Masquerade", artist="Linkin Park", album="The Hunting Party", length="3:34")
-        self.rock_rolla = Songs(title="Knocking On Heaven's Door", artist="Guns N' Roses", album="Live concert", length="5:22")
+        self.rock_song = Song(title="Shackler's Revenge", artist="Guns N' Roses", album="Chinese Democracy", length="4:28")
+        self.roll_song = Song(title="Final Masquerade", artist="Linkin Park", album="The Hunting Party", length="3:34")
+        self.rock_rolla = Song(title="Knocking On Heaven's Door", artist="Guns N' Roses", album="Live concert", length="5:22")
         self.musiclist = Playlist(name="Test Playlist")
         self.musiclist.add_song(self.rock_song)
         self.musiclist.add_song(self.roll_song)

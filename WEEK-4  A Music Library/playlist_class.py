@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from songs_class import Songs
+from songs_class import Song
 import datetime
 import copy
 import random
@@ -8,7 +8,7 @@ import json
 import os
 
 
-class Playlist():
+class Playlist:
 
     def __init__(self, name="Unknow Playlist", repeat=False, shuffle=False):
         self.name = name
@@ -19,7 +19,7 @@ class Playlist():
         self.first_random = True
 
     def is_a_song(self, song):
-        if isinstance(song, Songs):
+        if isinstance(song, Song):
             return True
         return False
 
@@ -87,6 +87,8 @@ class Playlist():
         for song in self.rocklist:
             snum += 1
             pptable.append([snum, song.artist, song.album, song.title, song.length])
+        print ("Shuffle is: {} / Repeat is: {}/ Playlist name is: {}".format(self.shuffle, self.repeat, self.name))
+        print ("Total Length : {}".format(self.get_total_length()))
         print (tabulate(pptable, headers, tablefmt="fancy_grid"))
 
     def save(self):
@@ -118,7 +120,7 @@ class Playlist():
             data = json.load(fp)
         loaded_playlist = Playlist(data["Playlist Name"], data["repeat"], data["shuffle"])
         for song in data["Songs"]:
-            loaded_playlist.add_song(Songs(song["title"], song["artist"], song["album"], song["length"], song["path"]))
+            loaded_playlist.add_song(Song(song["title"], song["artist"], song["album"], song["length"], song["path"]))
 
         return loaded_playlist
 
