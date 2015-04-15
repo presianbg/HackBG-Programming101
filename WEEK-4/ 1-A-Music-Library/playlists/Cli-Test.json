@@ -1,0 +1,28 @@
+{
+    "repeat": true,
+    "shuffle": false,
+    "Songs": [
+        {
+            "length": "0:05:01",
+            "album": "Liebe ist f\u00fcr alle da",
+            "artist": "Rammstein",
+            "title": "Ich tu dir weh",
+            "path": "/home/pressian/Music/ACDC Rock Or Bust [Full Album] 2014/Test/Rammstein - Ich tu dir weh.ogg"
+        },
+        {
+            "length": "0:04:04",
+            "album": "Edge of a Revolution - Single",
+            "artist": "Nickelback",
+            "title": "Edge of a Revolution",
+            "path": "/home/pressian/Music/ACDC Rock Or Bust [Full Album] 2014/Test/Revolution.mp3"
+        },
+        {
+            "length": "0:04:28",
+            "album": "Ronnie James Dio - This Is Your Life",
+            "artist": "Anthrax",
+            "title": "Neon Knights",
+            "path": "/home/pressian/Music/ACDC Rock Or Bust [Full Album] 2014/Test/dio01.flac"
+        }
+    ],
+    "Playlist Name": "Cli-Test"
+}
