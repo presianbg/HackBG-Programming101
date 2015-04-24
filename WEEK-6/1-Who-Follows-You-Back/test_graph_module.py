@@ -30,8 +30,8 @@ class TestGraphModule(unittest.TestCase):
 
     def test_path_between(self):
         self.test_graph.add_edge('n00dy', 'WaaDaaFaak')
-        self.test_graph.add_edge('n00dy', 'Rocky')
-        self.test_graph.add_edge('WaaDaaFaak', 'ZooMaster')
+        self.test_graph.add_edge('WaaDaaFaak', 'Rocky')
+        self.test_graph.add_edge('Rocky', 'ZooMaster')
         self.assertTrue(self.test_graph.path_between('n00dy', 'ZooMaster'))
         self.assertFalse(self.test_graph.path_between('WaaDaaFaak', 'n00dy'))
 
