@@ -9,7 +9,7 @@ class TestGraphModule(unittest.TestCase):
 
     def test_add_node(self):
         self.test_graph._add_node('test_node')
-        self.assertEqual(type(self.test_graph.graph['test_node']), list)
+        self.assertEqual(type(self.test_graph.graph['test_node']), set)
 
     def test_is_node_in_graph(self):
         self.test_graph._add_node('test_node')
@@ -26,7 +26,7 @@ class TestGraphModule(unittest.TestCase):
         self.test_graph.add_edge('n00dy', 'WaaDaaFaak')
         self.test_graph.add_edge('n00dy', 'Rocky')
         self.test_graph.add_edge('n00dy', 'ZooMaster')
-        self.assertEqual(self.test_graph.get_neighbors_for('n00dy'), ['WaaDaaFaak', 'Rocky', 'ZooMaster'])
+        self.assertEqual(self.test_graph.get_neighbors_for('n00dy'), {'WaaDaaFaak', 'Rocky', 'ZooMaster'})
 
     def test_path_between(self):
         self.test_graph.add_edge('n00dy', 'WaaDaaFaak')

@@ -35,7 +35,7 @@ class GitHubSocial:
         while is_there_followers:
             followers = requests.get('https://api.github.com/users/'
                                      + user +
-                                     '/followers?page={}&client_id='.format(cur_followers_page)
+                                     '/followers?page={}&per_page=100&client_id='.format(cur_followers_page)
                                      + client +
                                      '&client_secret='
                                      + secret)
@@ -48,7 +48,7 @@ class GitHubSocial:
         while is_there_following:
             following = requests.get('https://api.github.com/users/'
                                      + user +
-                                     '/following?page={}&client_id='.format(cur_following_page)
+                                     '/following?page={}&per_page=100&client_id='.format(cur_following_page)
                                      + client +
                                      '&client_secret='
                                      + secret)

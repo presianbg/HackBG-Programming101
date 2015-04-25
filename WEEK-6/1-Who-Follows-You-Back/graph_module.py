@@ -7,7 +7,7 @@ class DirectedGraph:
         self.graph = {}
 
     def _add_node(self, node):
-        self.graph[node] = []
+        self.graph[node] = set()
 
     def _is_node_in_graph(self, node):
         if node in self.graph:
@@ -19,7 +19,8 @@ class DirectedGraph:
             self._add_node(node_a)
         if not self._is_node_in_graph(node_b):
             self._add_node(node_b)
-        self.graph[node_a].append(node_b)
+        if node_b not in self.graph[node_a]:
+            self.graph[node_a].add(node_b)
 
     def get_neighbors_for(self, node):
         return self.graph[node]

@@ -5,12 +5,11 @@ from github_social import GitHubSocial
 class TestGitHubSocial(unittest.TestCase):
 
     def test_get_network_for(self):
-        #print(GitHubSocial.get_network_for('Lekensteyn'))
-        pass
+        self.assertEqual(len(GitHubSocial.get_network_for('presianbg')['followers']), 4)
 
     def test_build_github_social(self):
-        z = GitHubSocial.build_github_social('presianbg', 0)
-        print(z.graph)
+        z = GitHubSocial.build_github_social('presianbg', 1)
+        self.assertTrue(z.path_between('RadoRado', 'presianbg'))
 
 
 if __name__ == "__main__":
