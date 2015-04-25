@@ -27,23 +27,37 @@ class GitHubSocial:
         conf = GitHubSocial._load_config('config.json')
         secret = conf['client_secret']
         client = conf['client_id']
+        cur_followers_page = 1
+        cur_following_page = 1
+        is_there_followers = True
+        is_there_following = True
 
-        followers = requests.get('https://api.github.com/users/'
-                                 + user +
-                                 '/followers?client_id='
-                                 + client +
-                                 '&client_secret='
-                                 + secret)
+        while is_there_followers:
+            followers = requests.get('https://api.github.com/users/'
+                                     + user +
+                                     '/followers?page={}&client_id='.format(cur_followers_page)
+                                     + client +
+                                     '&client_secret='
+                                     + secret)
+            if followers.json():
+                ff_network['followers'] += GitHubSocial._make_list_of_usernames(followers)
+            else:
+                is_there_followers = False
+            cur_followers_page += 1
 
-        following = requests.get('https://api.github.com/users/'
-                                 + user +
-                                 '/following?client_id='
-                                 + client +
-                                 '&client_secret='
-                                 + secret)
+        while is_there_following:
+            following = requests.get('https://api.github.com/users/'
+                                     + user +
+                                     '/following?page={}&client_id='.format(cur_following_page)
+                                     + client +
+                                     '&client_secret='
+                                     + secret)
+            if following.json():
+                ff_network['following'] += GitHubSocial._make_list_of_usernames(following)
+            else:
+                is_there_following = False
 
-        ff_network['followers'] = GitHubSocial._make_list_of_usernames(followers)
-        ff_network['following'] = GitHubSocial._make_list_of_usernames(following)
+            cur_following_page += 1
 
         return ff_network
 
@@ -63,16 +77,16 @@ class GitHubSocial:
 
             user_ff_net = GitHubSocial.get_network_for(current_node)
 
-            for following in user_ff_net['following']:
-                github_graph.add_edge(current_node, following)
-                if following not in visited:
-                    visited.add(following)
-                    queue.append((current_lvl + 1, following))
-
             for follower in user_ff_net['followers']:
                 github_graph.add_edge(follower, current_node)
                 if follower not in visited:
                     visited.add(follower)
                     queue.append((current_lvl + 1, follower))
+
+            for following in user_ff_net['following']:
+                github_graph.add_edge(current_node, following)
+                if following not in visited:
+                    visited.add(following)
+                    queue.append((current_lvl + 1, following))
 
         return github_graph
