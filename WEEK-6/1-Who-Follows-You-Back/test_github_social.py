@@ -8,8 +8,9 @@ class TestGitHubSocial(unittest.TestCase):
         self.assertEqual(len(GitHubSocial.get_network_for('presianbg')['followers']), 4)
 
     def test_build_github_social(self):
-        z = GitHubSocial.build_github_social('presianbg', 1)
-        self.assertTrue(z.path_between('RadoRado', 'presianbg'))
+        z = GitHubSocial.build_github_social('presianbg', 0)
+        self.assertTrue(z.path_between('sevgo', 'presianbg'))
+        print(z)
 
 
 if __name__ == "__main__":
