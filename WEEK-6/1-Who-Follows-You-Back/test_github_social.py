@@ -38,5 +38,9 @@ class TestGitHubSocial(unittest.TestCase):
         with self.assertRaises(NoSuchUserinCurrentSocLevel):
             my_net.does_he_she_follows_indirectly('alabala-nica')
 
+    def test_who_follows_you_back(self):
+        my_net = GitHubSocial('RadoRado', 1)
+        print(my_net.who_follows_you_back())
+
 if __name__ == "__main__":
     unittest.main()

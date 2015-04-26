@@ -124,10 +124,21 @@ class GitHubSocial:
             return self.github_soc_net.path_between(other_user, self.user)
         raise NoSuchUserinCurrentSocLevel
 
+    def who_follows_you_back(self):
+        ff_back = []
+        for user in self.github_soc_net.graph:
+            user_follow_me = self.does_he_she_follows(user)
+            i_follow_user = self.do_you_follow(user)
+            i_follow_user_ind = self.do_you_follow_indirectly(user)
+            if user_follow_me and (i_follow_user or i_follow_user_ind):
+                ff_back.append(user)
+
+        return ff_back
 
 
 class NoSuchUserinCurrentSocLevel(Exception):
     pass
+
 
 class CantConnectToGitHubApi(Exception):
     pass
