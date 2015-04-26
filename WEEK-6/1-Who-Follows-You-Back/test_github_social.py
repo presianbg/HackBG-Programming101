@@ -1,17 +1,42 @@
 import unittest
-from github_social import GitHubSocial
+from github_social import GitHubSocial, NoSuchUserinCurrentSocLevel
 
 
 class TestGitHubSocial(unittest.TestCase):
 
     def test_get_network_for(self):
-        self.assertEqual(len(GitHubSocial.get_network_for('presianbg')['followers']), 4)
+        self.assertEqual(len(GitHubSocial.get_network_for('RadoRado')['followers']), 215)
+        self.assertEqual(len(GitHubSocial.get_network_for('RadoRado')['following']), 77)
 
     def test_build_github_social(self):
-        z = GitHubSocial.build_github_social('presianbg', 0)
-        self.assertTrue(z.path_between('sevgo', 'presianbg'))
-        print(z)
+        with self.assertRaises(ValueError):
+            GitHubSocial.build_github_social('presianbg', 99)
 
+        my_net = GitHubSocial('presianbg', 0)
+        print(my_net)
+
+    def test_do_you_follow(self):
+        my_net = GitHubSocial('presianbg', 0)
+        self.assertTrue(my_net.do_you_follow('sevgo'))
+        self.assertFalse(my_net.do_you_follow('torvalds'))
+
+    def test_do_you_follow_indirectly(self):
+        my_net = GitHubSocial('presianbg', 1)
+        self.assertTrue(my_net.do_you_follow_indirectly('torvalds'))
+        self.assertFalse(my_net.do_you_follow_indirectly('awefwe'))
+
+    def test_does_he_she_follows(self):
+        my_net = GitHubSocial('presianbg', 0)
+        self.assertTrue(my_net.does_he_she_follows('AnetaStoycheva'))
+        self.assertFalse(my_net.does_he_she_follows('ArchangeGabriel'))
+        with self.assertRaises(NoSuchUserinCurrentSocLevel):
+            self.assertFalse(my_net.does_he_she_follows('torvalds'))
+
+    def test_does_he_she_follows_indirectly(self):
+        my_net = GitHubSocial('presianbg', 1)
+        self.assertTrue(my_net.does_he_she_follows_indirectly('RadoRado'))
+        with self.assertRaises(NoSuchUserinCurrentSocLevel):
+            my_net.does_he_she_follows_indirectly('alabala-nica')
 
 if __name__ == "__main__":
     unittest.main()

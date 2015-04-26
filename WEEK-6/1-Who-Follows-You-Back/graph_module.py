@@ -33,7 +33,10 @@ class DirectedGraph:
             self.graph[node_a].add(node_b)
 
     def get_neighbors_for(self, node):
-        return self.graph[node]
+        try:
+            return self.graph[node]
+        except KeyError:
+            return False
 
     def path_between(self, node_a, node_b):
         return WalkDFS.are_connected(node_a, node_b, self.graph)

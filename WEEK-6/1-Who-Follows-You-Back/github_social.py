@@ -5,8 +5,13 @@ from graph_module import DirectedGraph
 
 class GitHubSocial:
 
-    def __init__(self):
-        pass
+    def __init__(self, user, level):
+        self.user = user
+        self.level = level
+        self.github_soc_net = GitHubSocial.build_github_social(self.user, self.level)
+
+    def __repr__(self):
+        return repr(self.github_soc_net)
 
     def _make_list_of_usernames(source):
         return [user['login'] for user in source.json()]
@@ -39,6 +44,10 @@ class GitHubSocial:
                                      + client +
                                      '&client_secret='
                                      + secret)
+
+            if followers.status_code != 200:
+                raise CantConnectToGitHubApi
+
             if followers.json():
                 ff_network['followers'] += GitHubSocial._make_list_of_usernames(followers)
             else:
@@ -52,6 +61,10 @@ class GitHubSocial:
                                      + client +
                                      '&client_secret='
                                      + secret)
+
+            if following.status_code != 200:
+                raise CantConnectToGitHubApi
+
             if following.json():
                 ff_network['following'] += GitHubSocial._make_list_of_usernames(following)
             else:
@@ -63,6 +76,10 @@ class GitHubSocial:
 
     @staticmethod
     def build_github_social(user, level):
+
+        if not (-1 < level <= 3):
+            raise ValueError
+
         visited = set()
         queue = []
         github_graph = DirectedGraph()
@@ -90,3 +107,27 @@ class GitHubSocial:
                     queue.append((current_lvl + 1, following))
 
         return github_graph
+
+    def do_you_follow(self, other_user):
+        return (other_user in self.github_soc_net.get_neighbors_for(self.user))
+
+    def do_you_follow_indirectly(self, other_user):
+        return self.github_soc_net.path_between(self.user, other_user)
+
+    def does_he_she_follows(self, other_user):
+        if type(self.github_soc_net.get_neighbors_for(other_user)) is set:
+            return (self.user in self.github_soc_net.get_neighbors_for(other_user))
+        raise NoSuchUserinCurrentSocLevel
+
+    def does_he_she_follows_indirectly(self, other_user):
+        if type(self.github_soc_net.get_neighbors_for(other_user)) is set:
+            return self.github_soc_net.path_between(other_user, self.user)
+        raise NoSuchUserinCurrentSocLevel
+
+
+
+class NoSuchUserinCurrentSocLevel(Exception):
+    pass
+
+class CantConnectToGitHubApi(Exception):
+    pass
