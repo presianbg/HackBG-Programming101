@@ -5,7 +5,7 @@ from github_social import GitHubSocial, NoSuchUserinCurrentSocLevel
 class TestGitHubSocial(unittest.TestCase):
 
     def test_get_network_for(self):
-        self.assertEqual(len(GitHubSocial.get_network_for('RadoRado')['followers']), 215)
+        self.assertEqual(len(GitHubSocial.get_network_for('RadoRado')['followers']), 216)
         self.assertEqual(len(GitHubSocial.get_network_for('RadoRado')['following']), 77)
 
     def test_build_github_social(self):
@@ -39,7 +39,7 @@ class TestGitHubSocial(unittest.TestCase):
             my_net.does_he_she_follows_indirectly('alabala-nica')
 
     def test_who_follows_you_back(self):
-        my_net = GitHubSocial('RadoRado', 1)
+        my_net = GitHubSocial('presianbg', 0)
         print(my_net.who_follows_you_back())
 
 if __name__ == "__main__":
