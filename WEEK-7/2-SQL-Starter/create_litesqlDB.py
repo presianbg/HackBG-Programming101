@@ -7,7 +7,7 @@ class ManageSQL:
         self.db = sqlite3.connect('DBs/employee.db')
         self.cursor = self.db.cursor()
         self.cursor.execute('''
-            CREATE TABLE employees(id INTEGER PRIMARY KEY, name TEXT,
+            CREATE TABLE IF NOT EXISTS employees(id INTEGER PRIMARY KEY, name TEXT,
                 monthly_salary INTEGER CHECK(monthly_salary>0), yearly_bonus INTEGER CHECK(yearly_bonus>0), position TEXT)
         ''')
         self.db.commit()

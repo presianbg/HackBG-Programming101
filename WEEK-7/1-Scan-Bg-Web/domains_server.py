@@ -16,7 +16,7 @@ def main():
 
     for domain in domains:
         try:
-            rq_head = requests.head(domain, timeout=0.5, headers=our_headers)
+            rq_head = requests.head(domain, timeout=2, headers=our_headers)
             srv = (rq_head.headers['Server'])
             general_srv = srv.split('/')[0]
             srv_distribution.add(general_srv)
