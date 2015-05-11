@@ -43,7 +43,7 @@ class CollectingServersSQL:
         domainsdb = self.cursor.fetchall()
 
         our_headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36"
+            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36"
         }
 
         for row in domainsdb:
@@ -57,7 +57,6 @@ class CollectingServersSQL:
                 print(e)
 
             self.db.commit()
-
 
         self.db.close()
 
