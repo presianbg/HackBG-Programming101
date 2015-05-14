@@ -31,7 +31,7 @@ class DataBankManager:
 
             return DataBankManager(conn)
 
-        conn.commit()
+        conn = sqlite3.connect(db_name)
         return DataBankManager(conn)
 
     def register(self, username, password):
