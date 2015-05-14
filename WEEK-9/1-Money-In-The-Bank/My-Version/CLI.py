@@ -50,7 +50,7 @@ class BankInterface:
     def is_give_up(self, data):
         return data == 'exit'
 
-    def start_register(self):
+    def start_register(self, manager):
         register_steps = [("Step 1(usr_name):", str),
                           ("Step 2(password):", str)]
         usr_pass = []
@@ -64,7 +64,25 @@ class BankInterface:
                 print ('Registration Abborted')
                 return False
             usr_pass.append(data)
-        return usr_pass
+
+        if manager.register(usr_pass[0], usr_pass[1]):
+            print ('{} Registered Successfuly'.format(usr_pass[0]))
+            return True
+        print ('Registration Failed')
+        return False
+
+    def start_auth(self, manager):
+        print ('Welcome to Login Procedure')
+        user = self.take_user_data("Enter User: ", str)
+        passwd = getpass.getpass("Enter Pass: ")
+
+        logged_user = manager.login(user, passwd)
+        if logged_user:
+            print("Successfuly Logged")
+            return logged_user
+        else:
+            print("Login failed")
+            return False
 
     def main_menu(self, manager):
         print (self.GREET_MSG)
@@ -77,23 +95,12 @@ class BankInterface:
                 print(self.create_help())
 
             elif self.is_command(command, 'register'):
-                usr_pass = self.start_register()
-                if usr_pass:
-                    if manager.register(usr_pass[0], usr_pass[1]):
-                        print ('{} Registered Successfuly'.format(usr_pass[0]))
-                        continue
-                    print ('Registration Failed')
+                self.start_register(manager)
 
             elif self.is_command(command, 'login'):
-                print ('Welcome to Login Procedure')
-                user = self.parse_command(input("Enter User: "))
-                passwd = getpass.getpass("Enter Pass: ")
-
-                logged_user = manager.login(user[0], passwd)
+                logged_user = self.start_auth(manager)
                 if logged_user:
-                    print("Successfuly Logged")
-                else:
-                    print("Login failed")
+                    self.logged_menu(logged_user, manager)
 
             elif self.is_give_up(command[0]):
                 print ('Bye Bye')
@@ -103,3 +110,6 @@ class BankInterface:
                 if command[0] is '':
                     continue
                 print (self.trigger_unknown_command())
+
+    def logged_menu(self, manager):
+        pass
