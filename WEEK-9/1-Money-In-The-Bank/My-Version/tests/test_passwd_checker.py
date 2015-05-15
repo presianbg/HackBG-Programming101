@@ -31,11 +31,9 @@ class TestPasswordChecker(unittest.TestCase):
         self.assertFalse(PasswdCheckHash.passwd_check('VStr0Ng', 'MegaUsr'))
 
     def test_salted_hash(self):
-        hpass, salt = PasswdCheckHash.hash_password('Ver1Str0Ng9Pa$$')
-        self.assertTrue(PasswdCheckHash.verify_password('Ver1Str0Ng9Pa$$', hpass, salt))
-        self.assertFalse(PasswdCheckHash.verify_password('VerGGtr0Ng9Pa$$', hpass, salt))
-        salt = '1efb159c089c42108a237526f7b23c92'
-        self.assertFalse(PasswdCheckHash.verify_password('Ver1Str0Ng9Pa$$', hpass, salt))
+        hpass = PasswdCheckHash.hash_password('Ver1Str0Ng9Pa$$')
+        self.assertTrue(PasswdCheckHash.verify_password('Ver1Str0Ng9Pa$$', hpass))
+        self.assertFalse(PasswdCheckHash.verify_password('VerGGtr0Ng9Pa$$', hpass))
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,6 +1,5 @@
 import re
-import uuid
-import hashlib
+from passlib.hash import pbkdf2_sha256
 
 
 class PasswdCheckHash:
@@ -16,16 +15,11 @@ class PasswdCheckHash:
         return False
 
     @staticmethod
-    def hash_password(password, salt=None):
-        if salt is None:
-            salt = uuid.uuid4().hex
+    def hash_password(password):
+        hashpasswd = pbkdf2_sha256.encrypt(password, rounds=200000, salt_size=32)
 
-        hashed_password = hashlib.sha256((password+salt).encode('utf-8')).hexdigest()
-
-        return (hashed_password, salt)
+        return hashpasswd
 
     @staticmethod
-    def verify_password(password, hashed_password, salt):
-        re_hashed, salt = PasswdCheckHash.hash_password(password, salt)
-
-        return re_hashed == hashed_password
+    def verify_password(password, hashpasswd):
+        return pbkdf2_sha256.verify(password, hashpasswd)
