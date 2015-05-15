@@ -1,6 +1,7 @@
 import sqlite3
 from Client import Client
 import os
+from pass_check_and_prepare import PasswdCheckHash
 
 
 class DataBankManager:
