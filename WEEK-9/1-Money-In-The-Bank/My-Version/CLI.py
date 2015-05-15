@@ -17,11 +17,19 @@ class BankInterface:
                     "exit               : Exitting from system @ any time"]
         return "\n".join(cli_help)
 
-    def parse_command(self, command):
-        return tuple(command.split(" "))
+    def logged_help(self):
+        logg_help = ["Here is the list of commands in logged mode:",
+                     "",
+                     "info              : for showing account info",
+                     "changepass        : for changing passowrd",
+                     "logout            : Returns you in the Main Menu"]
+        return "\n".join(logg_help)
 
-    def is_command(self, command_tuple, command_string):
-        return command_tuple[0] == command_string
+    def create_info(self, logged_user):
+        cli_info = ["Your username is: {}".format(logged_user.get_username()),
+                    "Your id is: {}".format(logged_user.get_id()),
+                    "Your balance is: {}$".format(logged_user.get_balance())]
+        return "\n".join(cli_info)
 
     def trigger_unknown_command(self):
         unknown_command = ["Error: Unknown command!",
@@ -30,11 +38,20 @@ class BankInterface:
 
         return "\n".join(unknown_command)
 
+    def parse_command(self, command):
+        return tuple(command.split(" "))
+
+    def is_command(self, command_tuple, command_string):
+        return command_tuple[0] == command_string
+
+    def is_give_up(self, command):
+        return command == 'exit' or command == 'logout'
+
     def take_user_data(self, step, data_type):
 
         while True:
             try:
-                if 'pass' in step:
+                if 'pass' in step.lower():
                     data = getpass.getpass(prompt=step)
                     return data
                 data = input(step)
@@ -46,9 +63,6 @@ class BankInterface:
                     return data_type(data)
             except Exception as e:
                 print(e)
-
-    def is_give_up(self, data):
-        return data == 'exit'
 
     def start_register(self, manager):
         register_steps = [("Step 1(usr_name):", str),
@@ -74,7 +88,7 @@ class BankInterface:
     def start_auth(self, manager):
         print ('Welcome to Login Procedure')
         user = self.take_user_data("Enter User: ", str)
-        passwd = getpass.getpass("Enter Pass: ")
+        passwd = self.take_user_data('Enter passwd: ', str)
 
         logged_user = manager.login(user, passwd)
         if logged_user:
@@ -111,5 +125,30 @@ class BankInterface:
                     continue
                 print (self.trigger_unknown_command())
 
-    def logged_menu(self, manager):
-        pass
+    def logged_menu(self, logged_user, manager):
+        print("Welcome you are logged in as: " + logged_user.get_username())
+
+        while True:
+            command = self.parse_command(input("Enter command# "))
+
+            if self.is_command(command, 'info'):
+                print(self.create_info(logged_user))
+
+            elif self.is_command(command, 'help'):
+                print(self.logged_help())
+
+            elif self.is_command(command, 'changepass'):
+                new_pass = self.take_user_data('Your New Password: ', str)
+                if manager.change_pass(new_pass, logged_user):
+                    print ('Your Password is changed successfuly')
+                else:
+                    print ('Something went wrong ?!')
+
+            elif self.is_give_up(command[0]):
+                print ('Returning to the MAIN MENU!')
+                break
+
+            else:
+                if command[0] is '':
+                    continue
+                print (self.trigger_unknown_command())
