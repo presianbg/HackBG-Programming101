@@ -9,12 +9,15 @@ class DataBankManager:
     GET_LOGIN = '''SELECT id, username, balance, message
         FROM clients
         WHERE username = ? AND password = ?
+        LIMIT 1
         '''
+
+    GET_HASH = '''SELECT password FROM clients WHERE username = ? LIMIT 1'''
 
     MAKE_ACC = '''INSERT INTO clients
         (username, password) values (?, ?)'''
 
-    CHAGE_PASS = '''UPDATE clients SET password = ? WHERE id = ? '''
+    CHANGE_PASS = '''UPDATE clients SET password = ? WHERE id = ? '''
 
     def __init__(self, conn):
         self.conn = conn
@@ -37,8 +40,9 @@ class DataBankManager:
 
     def register(self, username, password):
         cursor = self.conn.cursor()
+        hashpassw = PasswdCheckHash.hash_password(password)
         try:
-            cursor.execute(self.__class__.MAKE_ACC, (username, password))
+            cursor.execute(self.__class__.MAKE_ACC, (username, hashpassw))
             self.conn.commit()
         except Exception:
             return False
@@ -50,18 +54,24 @@ class DataBankManager:
 
     def login(self, username, password):
         cursor = self.conn.cursor()
-        cursor.execute(self.__class__.GET_LOGIN, (username, password))
-        usr_credentials = cursor.fetchone()
+        cursor.execute(self.__class__.GET_HASH, (username, ))
+        passwdhash = cursor.fetchone()
+        if not passwdhash:
+            return False
+        hashed_pass = passwdhash['password']
+        if PasswdCheckHash.verify_password(password, hashed_pass):
+            cursor.execute(self.__class__.GET_LOGIN, (username, hashed_pass))
+            usr_credentials = cursor.fetchone()
 
-        if (usr_credentials):
             return Client(usr_credentials['id'], usr_credentials['username'],
                           usr_credentials['balance'], usr_credentials['message'])
 
         return False
 
     def change_pass(self, new_pass, logged_user):
+        hashpassw = PasswdCheckHash.hash_password(new_pass)
         cursor = self.conn.cursor()
-        cursor.execute(self.__class__.CHAGE_PASS, (new_pass, logged_user.get_id()))
+        cursor.execute(self.__class__.CHANGE_PASS, (hashpassw, logged_user.get_id()))
         self.conn.commit()
 
         if self.login(logged_user.get_username(), new_pass):
