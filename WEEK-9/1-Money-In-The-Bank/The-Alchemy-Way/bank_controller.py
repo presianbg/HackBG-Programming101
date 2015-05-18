@@ -23,3 +23,6 @@ class BankController:
 
     def login(self, username, password):
         return self.__authaa.login(username, password)
+
+    def change_password(self, client, password):
+        return self.__authaa.change_password(client, password)

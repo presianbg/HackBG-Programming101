@@ -13,6 +13,7 @@ class PasswdCheckHash:
                 len(user) >= 6:
                 return True
 
+        print (PasswdCheckHash.__strong_psswd_inf())
         return False
 
     @staticmethod
@@ -24,3 +25,13 @@ class PasswdCheckHash:
     @staticmethod
     def verify_password(password, hashpasswd):
         return pbkdf2_sha256.verify(password, hashpasswd)
+
+    @staticmethod
+    def __strong_psswd_inf():
+        strong_psswd_msg = ["Failed! Your Passwd/Username Should:",
+                            "",
+                            "Have More then 8 symbols",
+                            "Must have capital letters, and numbers and a special symbol",
+                            "Username is not in the password (as a substring)",
+                            "Username shoud be longer than 6 symbols"]
+        return "\n".join(strong_psswd_msg)

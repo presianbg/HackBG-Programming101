@@ -108,3 +108,13 @@ class AuthenticationController:
 
         self.__failed_login_attempt(user)
         return 'Failed Login'
+
+    def change_password(self, client, password):
+        if PasswdCheckHash.passwd_check(password, client.username):
+            client.password = PasswdCheckHash.hash_password(password)
+            self.__commit_changes([client])
+
+            if self.login(client.username, password):
+                return True
+
+        return False
