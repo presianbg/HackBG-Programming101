@@ -1,0 +1,29 @@
+{% extends "website/base.html" %}
+
+{% block content %}
+<h1 id="title" style="margin-left:200px;">
+    {% with projections|first as first_projection %}
+        {{ first_projection.movie.title }}
+    {% endwith %}
+</h1>
+    <table class="table table-hover" style="margin-left:200px; width:80%;">
+        <tr class="active">
+        <th class="col-sm-3">Type</th>
+        <th class="col-sm-3">Date</th>
+        <th class="col-sm-3">Price</th>
+        </tr>
+        {% for projection in projections %}
+            <tr>
+                <td >
+                    {{ projection.dimension.ptype }}
+                </td>
+                <td>
+                    {{ projection.date }}
+                </td>
+                <td>
+                    {{ projection.dimension.pcost }} лв.
+                </td>
+            </tr>
+    {% endfor %}
+    </table>
+{% endblock content %}
