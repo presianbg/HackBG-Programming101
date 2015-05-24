@@ -3,7 +3,7 @@
 {% block content %}
 <h1 id="title" style="margin-left:200px;">Movies Today </h1>
 
-    <table class="table table-hover" style="margin-left:200px; width:80%;" >
+    <table class="table table-hover" style="width:80%;" align="center" >
         <tr class="active">
         <th class="col-sm-3">Title</th>
         <th class="col-sm-2">Rating</th>
@@ -12,8 +12,8 @@
         {% for movie in movies %}
             <tr>
                 <td >
-                    <a href="{% url 'cinema:projections' movie.id %}">
-                        {{ movie.title }}
+                    <a href="{% url 'cinema:projection' movie.id %}">
+                    {{ movie.title }}
                 </td>
                 <td>
                     {{ movie.rating }}

@@ -36,7 +36,7 @@ class Projection(models.Model):
     movie = models.ForeignKey(Movie)
 
     def __str__(self):
-        return '{} - {} - {}'.format(self.movie.title, self.dimension, self.date)
+        return '{} - {} - {}'.format(self.movie.title, self.dimension, self.date.strftime("%d/%m/%y %H:%M"))
 
 
 class Reservation(models.Model):
@@ -44,6 +44,9 @@ class Reservation(models.Model):
     projection = models.ForeignKey(Projection)
     row = models.PositiveSmallIntegerField()
     col = models.PositiveSmallIntegerField()
+
+    class Meta:
+        unique_together = (("projection", "row", "col"),)
 
     def __str__(self):
         return '{} - {} - {}'.format(self.username, (self.row, self.col), self.projection)
