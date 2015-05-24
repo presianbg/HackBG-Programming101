@@ -1,0 +1,47 @@
+{% extends "website/base.html" %}
+{% load custfilter %}
+
+{% block content %}
+<h1 id="title" align="center">
+{{ proj_info }}<br>
+<hr>
+ЕКРАН
+</h1 >
+<hr>
+<table class="table table-bordered" style="width:40%;" align="center">
+    {% for row in  hall_rows %}
+    <tr>
+        <td width="10" class="active">{{ row }}
+            {% for col in  hall_cols %}
+                {% if col != 0 and row != 0%}
+                    <td width="20" align="center" bgcolor={% is_taken taken_seats row col %}> ({{ row }}/{{ col }})</td>
+                {% else %}
+                    <td align="center" width="10" class="active">{{ col }}</td>
+                {% endif %}
+            {% endfor %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2 id="title" align="center">
+Резервация:
+</h2 >
+<form class="form-inline" align="center" method="POST">
+{% csrf_token %}
+  <div class="form-group">
+    <label for="exampleInputName2">Name</label>
+    <input name="user" type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail2">Row</label>
+    <input name="row" type="number" class="form-control" id="exampleInputRow2" placeholder="1-10">
+  </div>
+  <div class="form-group" class="col-xs-1">
+    <label for="exampleInputEmail2">Col</label>
+    <input name="col" type="number" class="form-control" id="exampleInputEmail2" placeholder="1-10">
+  </div>
+  <button type="submit" class="btn btn-default">Make Reservation</button>
+</form>
+
+{% endblock content %}
