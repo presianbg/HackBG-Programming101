@@ -18,7 +18,7 @@
             <tr >
                 <td >
                     <a href="{% url 'cinema:proj_info' projection.id %}">
-                    {{ projection.dimension.ptype }}
+                    <strong>{{ projection.dimension.ptype }}    </strong>
                 </td>
                 <td>
                     {{ projection.date| date:"j.m.o - G:i" }}
